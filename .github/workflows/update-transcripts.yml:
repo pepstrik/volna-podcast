@@ -2,7 +2,7 @@ name: Update Transcripts Index
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 11 * * *'  # 11:00 UTC = 14:00 МСК
   
   workflow_dispatch:
 
@@ -17,74 +17,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Debug - Check Secret
+      - name: Fetch from Google Apps Script
         run: |
-          if [ -z "${{ secrets.GOOGLE_APPS_SCRIPT_URL }}" ]; then
-            echo "❌ ОШИБКА: Secret GOOGLE_APPS_SCRIPT_URL не установлен!"
-            exit 1
-          else
-            echo "✅ Secret установлен"
-            echo "URL (первые 50 символов): ${{ secrets.GOOGLE_APPS_SCRIPT_URL }}" | head -c 50
-            echo "..."
-          fi
-      
-      - name: Fetch transcripts index from Google Apps Script
-        run: |
-          echo "📥 Загружаю индекс с Google Apps Script..."
-          curl -v "${{ secrets.GOOGLE_APPS_SCRIPT_URL }}" > transcriptions-index.json 2>&1
+          echo "📥 Загружаю индекс расшифровок..."
+          curl -s "${{ secrets.GOOGLE_APPS_SCRIPT_URL }}" -o transcriptions-index.json
           
+          echo "📊 Размер файла:"
+          ls -lh transcriptions-index.json
+          
+          echo "📋 Первые 300 символов:"
+          head -c 300 transcriptions-index.json
           echo ""
-          echo "📊 Проверяю размер файла..."
-          if [ -f transcriptions-index.json ]; then
-            SIZE=$(wc -c < transcriptions-index.json)
-            echo "✅ Файл создан, размер: $SIZE байт"
-            
-            echo ""
-            echo "📋 Содержимое файла (первые 500 символов):"
-            head -c 500 transcriptions-index.json
-            echo ""
-          else
-            echo "❌ Файл не создан!"
-            exit 1
-          fi
       
-      - name: Validate JSON
+      - name: Commit if changed
         run: |
-          echo "🔍 Проверяю JSON..."
-          if python3 -m json.tool transcriptions-index.json > /dev/null; then
-            echo "✅ JSON валиден"
-            echo "Количество эпизодов:"
-            python3 -c "import json; data = json.load(open('transcriptions-index.json')); print(f'  Всего: {len(data)}')"
-          else
-            echo "❌ JSON невалиден!"
-            exit 1
-          fi
-      
-      - name: Check if file changed
-        id: check_changes
-        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
           if git diff --quiet transcriptions-index.json 2>/dev/null; then
             echo "ℹ️ Файл не изменился"
-            echo "changed=false" >> $GITHUB_OUTPUT
           else
-            echo "✅ Файл изменился"
-            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✅ Коммитю изменения..."
+            git add transcriptions-index.json
+            git commit -m "🤖 Auto-update transcripts from Google Drive"
+            git push
           fi
       
-      - name: Commit and push if changed
-        if: steps.check_changes.outputs.changed == 'true'
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add transcriptions-index.json
-          git commit -m "🤖 Auto-update transcripts index from Google Drive"
-          git push
-          echo "✅ Файл запушен на GitHub"
-      
-      - name: Deploy to GitHub Pages
+      - name: Upload to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
           publish_branch: gh-pages
-          echo "✅ Файл опубликован на GitHub Pages"
