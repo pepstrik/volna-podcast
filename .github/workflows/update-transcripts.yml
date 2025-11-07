@@ -20,41 +20,33 @@ jobs:
       - name: Fetch from Google Apps Script
         run: |
           echo "📥 Загружаю индекс расшифровок..."
-          curl -s "${{ secrets.GOOGLE_APPS_SCRIPT_URL }}" -o transcriptions-index.json
+          curl -s "${{ secrets.GOOGLE_APPS_SCRIPT_URL }}" > transcriptions-index.json
           
-          echo "📊 Размер файла:"
+          echo "📊 Проверяю размер:"
           ls -lh transcriptions-index.json
           
-          echo "📋 ПОЛНОЕ СОДЕРЖИМОЕ:"
-          cat transcriptions-index.json
+          echo "📋 Первые 200 символов:"
+          head -c 200 transcriptions-index.json
+          echo ""
           echo ""
       
-      - name: Validate JSON
-        run: |
-          echo "🔍 Проверяю JSON..."
-          if python3 -m json.tool transcriptions-index.json > /dev/null 2>&1; then
-            echo "✅ JSON валиден"
-            EPISODES=$(python3 -c "import json; data=json.load(open('transcriptions-index.json')); print(len(data))")
-            echo "   Всего эпизодов: $EPISODES"
-          else
-            echo "❌ JSON невалиден!"
-            echo "Ошибка парсинга:"
-            python3 -m json.tool transcriptions-index.json 2>&1 || true
-            exit 1
-          fi
-      
-      - name: Commit if changed
-        if: success()
+      - name: Commit and push if changed
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           
+          # Проверяем есть ли содержимое
+          if [ ! -s transcriptions-index.json ]; then
+            echo "❌ Файл пуст!"
+            exit 1
+          fi
+          
           if git diff --quiet transcriptions-index.json 2>/dev/null; then
             echo "ℹ️ Файл не изменился"
           else
-            echo "✅ Коммитю изменения..."
+            echo "✅ Файл изменился, коммитю..."
             git add transcriptions-index.json
             git commit -m "🤖 Auto-update transcripts from Google Drive"
             git push origin main
-            echo "✅ Запушено на main"
+            echo "✅ Успешно запушено!"
           fi
