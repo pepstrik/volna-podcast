@@ -1,0 +1,49 @@
+name: Update Transcripts Index
+
+on:
+  # Обновляем каждый день в 10:00 UTC
+  schedule:
+    - cron: '0 10 * * *'
+  
+  # Можно запустить вручную
+  workflow_dispatch:
+
+jobs:
+  update-transcripts:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Fetch transcripts index from Google Apps Script
+        run: |
+          curl -s "${{ secrets.GOOGLE_APPS_SCRIPT_URL }}" > transcriptions-index.json
+      
+      - name: Check if file changed
+        id: check_changes
+        run: |
+          if git diff --quiet transcriptions-index.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add transcriptions-index.json
+          git commit -m "🤖 Auto-update transcripts index from Google Drive"
+          git push
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
