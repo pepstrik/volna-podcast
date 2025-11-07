@@ -17,7 +17,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #563C9C 0%, #140257 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -29,7 +29,7 @@
         
         .header {
             text-align: center;
-            color: white;
+            color: #FFFFFF;
             margin-bottom: 40px;
             animation: fadeIn 0.6s ease-in;
         }
@@ -38,22 +38,25 @@
             font-size: 2.8rem;
             margin-bottom: 10px;
             font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            color: #FCC200;
         }
         
         .header p {
             font-size: 1.1rem;
             opacity: 0.95;
             font-weight: 300;
+            color: #FFFFFF;
         }
         
         .search-box {
-            background: white;
+            background: #FFFFFF;
             padding: 35px;
             border-radius: 20px;
             box-shadow: 0 15px 50px rgba(0,0,0,0.25);
             margin-bottom: 40px;
             animation: slideUp 0.6s ease-out;
+            border: 3px solid #B6832E;
         }
         
         .search-controls {
@@ -68,45 +71,52 @@
             min-width: 250px;
             padding: 16px 20px;
             font-size: 16px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #264E66;
             border-radius: 10px;
             transition: all 0.3s ease;
             font-family: inherit;
+            background: #FFFFFF;
+            color: #101010;
+        }
+        
+        .search-input::placeholder {
+            color: #B6832E;
         }
         
         .search-input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #563C9C;
+            box-shadow: 0 0 0 3px rgba(86, 60, 156, 0.1);
         }
         
         .year-filter {
             min-width: 180px;
             padding: 16px 15px;
             font-size: 16px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #264E66;
             border-radius: 10px;
-            background: white;
+            background: #FFFFFF;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
+            color: #101010;
         }
         
         .year-filter:hover {
-            border-color: #667eea;
+            border-color: #563C9C;
         }
         
         .year-filter:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #563C9C;
+            box-shadow: 0 0 0 3px rgba(86, 60, 156, 0.1);
         }
         
         .results-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #666;
+            color: #264E66;
             font-size: 15px;
             margin-bottom: 20px;
             padding: 0 5px;
@@ -114,7 +124,7 @@
         
         .results-count {
             font-weight: 600;
-            color: #333;
+            color: #563C9C;
         }
         
         .episodes-list {
@@ -125,7 +135,7 @@
         }
         
         .episode-card {
-            background: white;
+            background: #FFFFFF;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -133,6 +143,7 @@
             display: flex;
             gap: 20px;
             animation: slideUp 0.5s ease-out backwards;
+            border-left: 5px solid #B6832E;
         }
         
         .episode-card:nth-child(1) { animation-delay: 0.05s; }
@@ -142,7 +153,8 @@
         
         .episode-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+            box-shadow: 0 12px 35px rgba(182, 131, 46, 0.3);
+            border-left-color: #FCC200;
         }
         
         .episode-image-wrapper {
@@ -151,7 +163,7 @@
             height: 140px;
             border-radius: 12px;
             overflow: hidden;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #563C9C 0%, #B63A2C 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -178,4 +190,393 @@
         .episode-title {
             font-size: 1.4rem;
             font-weight: 600;
-            color: #
+            color: #101010;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            transition: color 0.3s;
+        }
+        
+        .episode-card:hover .episode-title {
+            color: #563C9C;
+        }
+        
+        .episode-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: #264E66;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .episode-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        
+        .episode-description {
+            color: #264E66;
+            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .episode-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .episode-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            background: linear-gradient(135deg, #563C9C 0%, #B63A2C 100%);
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .episode-link:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(182, 131, 46, 0.4);
+            background: linear-gradient(135deg, #B63A2C 0%, #563C9C 100%);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 80px 40px;
+            background: #FFFFFF;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-in;
+            border: 3px solid #B6832E;
+        }
+        
+        .no-results-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+        
+        .no-results h2 {
+            font-size: 1.5rem;
+            color: #101010;
+            margin-bottom: 10px;
+        }
+        
+        .no-results p {
+            color: #264E66;
+            font-size: 16px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 40px;
+            color: #FFFFFF;
+            font-size: 18px;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: #FCC200;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                padding: 20px;
+            }
+            
+            .search-controls {
+                flex-direction: column;
+            }
+            
+            .search-input, .year-filter {
+                width: 100%;
+                min-width: unset;
+            }
+            
+            .episode-card {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .episode-image-wrapper {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .episode-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 Волна с Востока</h1>
+            <p>Поиск по выпускам подкаста об азиатской поп-культуре</p>
+        </div>
+        
+        <div class="search-box">
+            <div class="search-controls">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput"
+                    placeholder="🔍 Поиск по названию или описанию..."
+                    autocomplete="off"
+                >
+                
+                <select id="yearFilter" class="year-filter">
+                    <option value="">Все годы</option>
+                </select>
+            </div>
+            
+            <div class="results-info">
+                <div class="results-count" id="resultsCount"></div>
+            </div>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <div>📡 Загружаю выпуски подкаста...</div>
+        </div>
+        
+        <ul id="episodesList" class="episodes-list" style="display: none;"></ul>
+        
+        <div id="noResults" class="no-results" style="display: none;">
+            <div class="no-results-icon">😔</div>
+            <h2>Ничего не найдено</h2>
+            <p>Попробуйте другие ключевые слова или измените фильтр по годам</p>
+        </div>
+    </div>
+
+    <script>
+        // URL твоего JSON файла
+        const EPISODES_JSON_URL = 'https://raw.githubusercontent.com/pepstrik/volna-podcast/main/episodes.json';
+        
+        let allEpisodes = [];
+        let isLoading = true;
+        
+        // Загрузка данных
+        async function loadEpisodes() {
+            try {
+                const response = await fetch(EPISODES_JSON_URL);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                allEpisodes = await response.json();
+                
+                if (!Array.isArray(allEpisodes) || allEpisodes.length === 0) {
+                    throw new Error('JSON пустой или невалидный');
+                }
+                
+                // Заполняем фильтр по годам
+                populateYearFilter();
+                
+                // Показываем все выпуски
+                displayEpisodes(allEpisodes);
+                
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                document.getElementById('loading').innerHTML = 
+                    '<div style="font-size: 24px; margin-bottom: 15px;">❌</div>' +
+                    '<div>Ошибка загрузки данных</div>' +
+                    '<div style="font-size: 12px; margin-top: 10px; opacity: 0.8;">Проверьте URL JSON файла</div>';
+            } finally {
+                isLoading = false;
+            }
+        }
+        
+        // Заполнение фильтра годов
+        function populateYearFilter() {
+            const years = [...new Set(
+                allEpisodes
+                    .map(ep => ep.year)
+                    .filter(Boolean)
+                    .sort((a, b) => b - a)
+            )];
+            
+            const yearFilter = document.getElementById('yearFilter');
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+        }
+        
+        // Отображение выпусков
+        function displayEpisodes(episodes) {
+            const list = document.getElementById('episodesList');
+            const noResults = document.getElementById('noResults');
+            const loading = document.getElementById('loading');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            list.innerHTML = '';
+            
+            if (episodes.length === 0) {
+                list.style.display = 'none';
+                loading.style.display = 'none';
+                noResults.style.display = 'block';
+                resultsCount.textContent = '';
+                return;
+            }
+            
+            list.style.display = 'grid';
+            loading.style.display = 'none';
+            noResults.style.display = 'none';
+            
+            const word = getEpisodeWord(episodes.length);
+            resultsCount.textContent = `📺 Найдено: ${episodes.length} ${word}`;
+            
+            episodes.forEach((episode, index) => {
+                const li = document.createElement('li');
+                li.className = 'episode-card';
+                
+                // Изображение
+                const imageHtml = episode.image 
+                    ? `<img src="${episode.image}" alt="${episode.name}" class="episode-image" onerror="this.parentElement.style.background='linear-gradient(135deg, #563C9C 0%, #B63A2C 100%)'; this.style.display='none';">`
+                    : '';
+                
+                // Метаданные
+                const metaParts = [];
+                if (episode.date) metaParts.push(`<div class="episode-meta-item">📅 ${episode.date}</div>`);
+                if (episode.duration) metaParts.push(`<div class="episode-meta-item">⏱️ ${episode.duration}</div>`);
+                if (episode.episode_number) metaParts.push(`<div class="episode-meta-item">№ ${episode.episode_number}</div>`);
+                if (episode.explicit) metaParts.push(`<div class="episode-meta-item">🔞 18+</div>`);
+                
+                // Описание (обрезаем до 300 символов)
+                const desc = episode.desc 
+                    ? (episode.desc.length > 300 ? episode.desc.substring(0, 300) + '...' : episode.desc)
+                    : 'Описание отсутствует';
+                
+                li.innerHTML = `
+                    <div class="episode-image-wrapper">
+                        ${imageHtml}
+                        <span style="font-size: 60px; display: ${episode.image ? 'none' : 'block'};">🎧</span>
+                    </div>
+                    <div class="episode-content">
+                        <div>
+                            <div class="episode-header">
+                                <h3 class="episode-title">${escapeHtml(episode.name)}</h3>
+                            </div>
+                            <div class="episode-meta">${metaParts.join('')}</div>
+                            <div class="episode-description">${escapeHtml(desc)}</div>
+                        </div>
+                        <div class="episode-footer">
+                            <a href="${episode.link}" target="_blank" rel="noopener noreferrer" class="episode-link">
+                                🎧 Слушать выпуск
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                list.appendChild(li);
+            });
+        }
+        
+        // Склонение слова "выпуск"
+        function getEpisodeWord(count) {
+            const cases = [2, 0, 1, 1, 1, 2];
+            const titles = ['выпуск', 'выпуска', 'выпусков'];
+            return titles[(count % 100 > 4 && count % 100 < 20) ? 2 : cases[Math.min(count % 10, 5)]];
+        }
+        
+        // Экранирование HTML
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        // Фильтрация
+        function applyFilters() {
+            if (isLoading) return;
+            
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const year = document.getElementById('yearFilter').value;
+            
+            let filtered = allEpisodes;
+            
+            // Фильтр по году
+            if (year) {
+                filtered = filtered.filter(ep => ep.year && ep.year.toString() === year);
+            }
+            
+            // Поиск по тексту
+            if (query) {
+                filtered = filtered.filter(ep => 
+                    ep.name.toLowerCase().includes(query) || 
+                    (ep.desc && ep.desc.toLowerCase().includes(query))
+                );
+            }
+            
+            displayEpisodes(filtered);
+        }
+        
+        // События
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('yearFilter').addEventListener('change', applyFilters);
+        
+        // Загружаем при старте
+        loadEpisodes();
+    </script>
+</body>
+</html>
