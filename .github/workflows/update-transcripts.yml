@@ -29,6 +29,18 @@ jobs:
           head -c 300 transcriptions-index.json
           echo ""
       
+      - name: Validate JSON
+        run: |
+          echo "🔍 Проверяю JSON..."
+          if python3 -m json.tool transcriptions-index.json > /dev/null 2>&1; then
+            echo "✅ JSON валиден"
+            EPISODES=$(python3 -c "import json; data=json.load(open('transcriptions-index.json')); print(len(data))")
+            echo "   Всего эпизодов: $EPISODES"
+          else
+            echo "❌ JSON невалиден!"
+            exit 1
+          fi
+      
       - name: Commit if changed
         run: |
           git config user.name "GitHub Actions"
@@ -40,12 +52,6 @@ jobs:
             echo "✅ Коммитю изменения..."
             git add transcriptions-index.json
             git commit -m "🤖 Auto-update transcripts from Google Drive"
-            git push
+            git push origin main
+            echo "✅ Запушено на main"
           fi
-      
-      - name: Upload to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-          publish_branch: gh-pages
