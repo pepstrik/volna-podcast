@@ -1,0 +1,45 @@
+name: Update Podcast Feed
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Каждый день в 9:00 UTC (12:00 MSK)
+  workflow_dispatch:      # Можно запустить вручную
+  push:
+    branches:
+      - main
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install feedparser
+      
+      - name: Generate episodes.json
+        env:
+          RSS_URL: ${{ secrets.RSS_URL }}
+        run: python parser.py
+      
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add episodes.json
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "🤖 Auto-update episodes.json" && git push)
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
