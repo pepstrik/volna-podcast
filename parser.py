@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 RSS парсер для подкаста «Волна с Востока»
-Генерирует volna_episodes.json для поиска на сайте
+Генерирует episodes.json для поиска на сайте
 """
 
 import argparse
@@ -22,7 +22,7 @@ if not DEFAULT_RSS:
     print("   Установите её в GitHub Secrets или в .env файле")
     sys.exit(1)
 
-DEFAULT_OUT = "volna_episodes.json"
+DEFAULT_OUT = "episodes.json"
 
 
 def clean_html(text: str) -> str:
