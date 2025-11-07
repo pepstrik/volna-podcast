@@ -15,7 +15,13 @@ from datetime import datetime, timezone
 from html import unescape
 from email.utils import parsedate_to_datetime
 
-DEFAULT_RSS = os.getenv("RSS_URL", "https://cloud.mave.digital/66298")
+DEFAULT_RSS = os.getenv("RSS_URL")
+# Проверяем что RSS_URL установлен
+if not DEFAULT_RSS:
+    print("❌ ОШИБКА: Переменная окружения RSS_URL не установлена!")
+    print("   Установите её в GitHub Secrets или в .env файле")
+    sys.exit(1)
+
 DEFAULT_OUT = "volna_episodes.json"
 
 
