@@ -36,7 +36,7 @@ Python · feedparser · GitHub Actions · JSON
 
 ## 🌐 Demo
 
-- **JSON feed**: [volna_episodes.json](https://pepstrik.github.io/volna-podcast/episodes.json)
+- **JSON feed**: [episodes.json](https://pepstrik.github.io/volna-podcast/episodes.json)
 - **Поиск по выпускам**: [search.html](https://pepstrik.github.io/volna-podcast/search.html)
 - **Официальный сайт**: [https://твой-сайт.com](https://volnasvostoka.ru/))
 
