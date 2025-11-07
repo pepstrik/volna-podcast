@@ -23,7 +23,7 @@ if not DEFAULT_RSS:
     sys.exit(1)
 
 DEFAULT_OUT = "episodes.json"
-
+EXTRAS_FILE = os.getenv("EXTRAS_FILE", "extras_map.json")
 
 def clean_html(text: str) -> str:
     """Грубое удаление HTML-тегов + unescape, схлопывание пробелов."""
@@ -73,6 +73,28 @@ def parse_duration(raw) -> str:
         return f"{mi}:{sec:02d}"
     except (ValueError, TypeError):
         return s
+        
+def load_extras_map(path: str) -> dict:
+    """Загружает карту доп.полей по номеру эпизода."""
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    return data
+        except Exception as e:
+            print(f"⚠️ Не удалось прочитать {path}: {e}")
+    return {}
+
+def norm_epnum(v) -> str:
+    """Нормализует episode_number к строке ('8', '12'...), чтобы ключи совпадали с JSON-картой."""
+    if v is None or v == "":
+        return ""
+    try:
+        return str(int(v))
+    except Exception:
+        # если вдруг в RSS строка, сохраняем как есть (например, 'S1E8')
+        return str(v).strip()
 
 
 def coerce_datetime(entry) -> tuple[datetime | None, str, int | None]:
@@ -152,6 +174,7 @@ def to_int_or_str(v):
 def parse_rss_to_json(rss_url: str, out_path: str) -> int:
     print(f"Загружаю RSS: {rss_url}")
     feed = feedparser.parse(rss_url)
+    extras_map = load_extras_map(EXTRAS_FILE)
 
     if getattr(feed, "bozo", False):
         print(f"⚠️ Предупреждение: {getattr(feed, 'bozo_exception', 'unknown parse issue')}")
@@ -187,6 +210,9 @@ def parse_rss_to_json(rss_url: str, out_path: str) -> int:
             guid = entry.get("guid") or entry.get("id") or ""
             explicit = str(entry.get("itunes_explicit") or "").lower() in {"yes", "true", "1"}
 
+            num_key = norm_epnum(episode_number)
+            extra = extras_map.get(num_key, {})  # ← вот её и не хватало
+
             episodes.append(
                 {
                     "name": title,
@@ -202,6 +228,7 @@ def parse_rss_to_json(rss_url: str, out_path: str) -> int:
                     "episode_type": episode_type,
                     "guid": guid,
                     "explicit": explicit,
+                    "page": extra.get("page", ""),
                     # «сырая» дата для сортировки/отладки (ISO, UTC)
                     "pub_iso": pub_dt.astimezone(timezone.utc).isoformat() if pub_dt else "",
                 }

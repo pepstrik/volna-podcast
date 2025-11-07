@@ -13,6 +13,7 @@
     "episode_type": "full",
     "guid": "5d790e94-e96a-4306-bcbb-0894d4e7a429",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/k-food",
     "pub_iso": "2025-11-06T15:15:54+00:00"
   },
   {
@@ -29,6 +30,7 @@
     "episode_type": "full",
     "guid": "ef191e35-2435-4917-a64f-a1770462b513",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/blackpink",
     "pub_iso": "2025-10-30T05:00:00+00:00"
   },
   {
@@ -45,6 +47,7 @@
     "episode_type": "full",
     "guid": "52fde607-0e54-49cf-89f5-45a6f6d0e0e9",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/ghosts-of-tsushima",
     "pub_iso": "2025-10-23T13:27:48+00:00"
   },
   {
@@ -61,6 +64,7 @@
     "episode_type": "full",
     "guid": "d4321901-5e7a-492c-90d1-8c3069eea839",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/immortals-wave",
     "pub_iso": "2025-10-16T05:00:00+00:00"
   },
   {
@@ -77,6 +81,7 @@
     "episode_type": "full",
     "guid": "b48dfbed-b726-4aa0-9b2c-a45d4b304b7a",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/attorney-woo",
     "pub_iso": "2025-10-09T09:56:03+00:00"
   },
   {
@@ -93,6 +98,7 @@
     "episode_type": "full",
     "guid": "ee14477a-8df6-49b3-913b-2bf061ccf42e",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/bts-fandom",
     "pub_iso": "2025-10-03T10:17:27+00:00"
   },
   {
@@ -109,6 +115,7 @@
     "episode_type": "full",
     "guid": "125fbaa2-c6f9-412b-b9c9-f640947fa50e",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/squid-game",
     "pub_iso": "2025-09-25T15:21:58+00:00"
   },
   {
@@ -125,6 +132,7 @@
     "episode_type": "full",
     "guid": "5a8678bf-0a34-4916-8265-f5e03af2d2f3",
     "explicit": false,
+    "page": "https://volnasvostoka.ru/episodes/squid-game",
     "pub_iso": "2025-09-19T19:40:55+00:00"
   }
 ]
