@@ -73,6 +73,7 @@ def parse_duration(raw) -> str:
         return f"{mi}:{sec:02d}"
     except (ValueError, TypeError):
         return s
+        
 def load_extras_map(path: str) -> dict:
     """Загружает карту доп.полей по номеру эпизода."""
     if os.path.exists(path):
@@ -208,6 +209,9 @@ def parse_rss_to_json(rss_url: str, out_path: str) -> int:
 
             guid = entry.get("guid") or entry.get("id") or ""
             explicit = str(entry.get("itunes_explicit") or "").lower() in {"yes", "true", "1"}
+
+            num_key = norm_epnum(episode_number)
+            extra = extras_map.get(num_key, {})  # ← вот её и не хватало
 
             episodes.append(
                 {
